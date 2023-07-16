@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../../styles/syles.css" />
+        <title>Ecommerce | Order</title>
+    </head>
+    <body>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script
+            type="module"
+            defer
+            src="../../functionality/homePageFunc/homePageOnLoad.js"
+        ></script>
+        <script type="module" defer src="../../functionality/order/loadData.js"></script>
+        <script type="module" defer src="../../functionality/order/buttonManagment.js"></script>
+        <script type="module" defer src="../../functionality/order/buyFunctionality.js"></script>
+        <header class="header">
+            <div class="header_wrapper">
+                <h1 class="logo"><a id="logo" href="/">MySite</a></h1>
+                <ul role="list" class="wrapper">
+                    <li class="list_item">
+                        <a href="pages/auth/register.html"
+                            ><i class="far fa-user"></i
+                        ></a>
+                    </li>
+                    <li class="list_item disabled">
+                        <a href=""><i class="far fa-heart"></i></a>
+                    </li>
+                    <li id="cardListItem" class="list_item disabled">
+                        <a href=""><i class="fas fa-shopping-cart"></i></a>
+                        <p id="cartItemsCount"></p>
+                    </li>
+                    <li id="headerPrice" class="list_item disabled">0.00</li>
+                    <div class="navbar__toggle" id="mobile-menu">
+                        <span class="bar"></span> <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                </ul>
+            </div>
+            <ul role="list" class="wrapper mobile">
+                <li class="list_item">
+                    <a href="pages/auth/register.html">Profile</a>
+                </li>
+                <li class="list_item disabled">
+                    <a href="">Favorites</a>
+                </li>
+            </ul>
+        </header>
+
+        <main class="order_page" id="main">
+            <section class="method">
+                <div class="section_heading_wrapper">
+                    <i class="fas fa-truck"></i>
+                    <h2 class="section_heading">Delivery method</h2>
+                </div>
+                <div class="main">
+                    <form id="deliveryMethodForm" class="method_form">
+                        <div class="element">
+                            <input
+                                id="dhl_delivery"
+                                type="radio"
+                                name="delivery_method"
+                            />
+                            <label for="dhl_delivery">
+                                <div class="delivery_label">
+                                    <i class="fas fa-warehouse"></i>
+                                    <p>DHL office</p>
+                                </div>
+                                <p class="delivery_date">
+                                    Delivery from
+                                    <span id="early" class="colored"></span> to
+                                    <span id="late" class="colored"></span>
+                                </p>
+                            </label>
+                        </div>
+
+                        <div class="element">
+                            <input
+                                id="fast_dhl"
+                                type="radio"
+                                name="delivery_method"
+                            />
+                            <label for="fast_dhl" class="fast_dhl">
+                                <div class="delivery_label">
+                                    <i class="fas fa-shipping-fast"></i>
+                                    <p>Express delivery to DHL office</p>
+                                </div>
+                                <p class="delivery_date">
+                                    Delivery on
+                                    <span id="early" class="colored"></span>
+                                </p>
+                            </label>
+                        </div>
+
+                        <div class="element">
+                            <input
+                                id="to_address"
+                                type="radio"
+                                name="delivery_method"
+                                checked
+                            />
+                            <label for="to_address" class="address">
+                                <div class="delivery_label">
+                                    <i class="fas fa-home"></i>
+                                    <p>Delifery to address</p>
+                                </div>
+                                <p class="delivery_date">
+                                    Delivery from
+                                    <span id="early" class="colored"></span> to
+                                    <span id="late" class="colored"></span>
+                                </p>
+                            </label>
+                        </div>
+                    </form>
+                    <div class="data">
+                        <h2 class="heading">
+                            WE WILL DELIVER YOUR SHIPMENT TO
+                        </h2>
+                        <div class="field_wrapper">
+                            <label for="name_field" class="name_label"
+                                >First and Last names*:</label
+                            >
+                            <input placeholder="Ivan Georgiev" type="text" id="name_field" />
+                        </div>
+                        <div class="field_wrapper">
+                            <label for="phone_field" class="phone_label"
+                                >Phone*:</label
+                            >
+                            <input placeholder="0888888888" type="phone" id="phone_field" />
+                        </div>
+                        <div class="field_wrapper">
+                            <label id="addressOrOfficeLabel" for="address_field" class="address_label"
+                                >Address*:</label
+                            >
+                            <input placeholder="Sofia, ul.Oborishte #24" type="address" id="address_field" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="method">
+                <div class="section_heading_wrapper">
+                    <i class="fas fa-money-check"></i>
+                    <h2 class="section_heading">Payment method</h2>
+                </div>
+                <div class="main">
+                    <form id="paymentForm" class="method_form">
+                        <div class="element">
+                            <input
+                                id="on_delivery"
+                                type="radio"
+                                name="delivery_method"
+                                checked
+                            />
+                            <label for="on_delivery">Cash on Delivery</label>
+                        </div>
+
+                        <div class="element">
+                            <input
+                                id="strypes_payment"
+                                type="radio"
+                                name="delivery_method"
+                            />
+                            <label for="strypes_payment" class="fast_dhl"
+                                >Pay with Strypes</label
+                            >
+                        </div>
+                    </form>
+                    <div id="cardInfoWrapper" class="data">
+                        <!-- <h2 class="heading">YOUR CARD INFORMATION</h2>
+                        <div class="field_wrapper">
+                            <label for="phone_field" class="phone_label">Card Number:</label>
+                            <input type="text" id="cardNumberField">
+                        </div>
+                        <div class="field_wrapper">
+                            <label for="name_field" class="name_label">Expiration Date:</label>
+                            <div class="exp_date">
+                                <select name="expireMM" id="expireMM">
+                                    <option value="">Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select> 
+                                <span>/</span>
+                                <select name="expireYY" id="expireYY">
+                                    <option value="">Year</option>
+                                    <option value="20">2020</option>
+                                    <option value="21">2021</option>
+                                    <option value="22">2022</option>
+                                    <option value="23">2023</option>
+                                    <option value="24">2024</option>
+                                </select>
+                                <input class="inputCard" type="hidden" name="expiry" id="expiry" maxlength="4"/>
+                            </div>
+                            
+                        </div>
+                        <div class="field_wrapper">
+                            <label for="address_field" class="address_label">CVC:</label>
+                            <input type="cvc" id="cvcField">
+                        </div> -->
+                       
+                    </div>
+                </div>
+            </section>
+            <section class="additional">
+                <div class="method">
+                    <div class="section_heading_wrapper">
+                        <i class="fas fa-comment"></i>
+                        <h2 class="section_heading">Add Comment</h2>
+                    </div>
+                    <div class="main">
+                        <textarea
+                            placeholder="Add Comment Here..."
+                            name="additional_comment"
+                            id="comment_textarea"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="section_heading_wrapper">
+                        <i class="fas fa-money-bill-alt"></i>
+                        <h2 class="section_heading">Price</h2>
+                    </div>
+                    <div class="main">
+                        <div class="price_wrapper">
+                            <p class="label">Subtotal</p>
+                            <p id="price" class="price">59.99lv</p>
+                        </div>
+                        <div class="price_wrapper">
+                            <p class="label">Delivery</p>
+                            <p class="price">0.00lv</p>
+                        </div>
+                        <div class="price_wrapper total">
+                            <p class="label">TOTAL:</p>
+                            <p id="price" class="price">59.99lv</p>
+                        </div>
+                        <p class="error_message"></p>
+                        <button id="finish_order_btn" class="finish_order">Finish Order</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="wrapper">
+                <p class="text">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Quidem facere beatae incidunt rem rerum quos quo temporibus
+                    enim dolorem veniam?
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Ipsam dignissimos eius rerum deleniti expedita veniam eaque,
+                    tenetur placeat totam. Eveniet.
+                </p>
+                <p>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Exercitationem nostrum, nesciunt qui ipsa non officia! Quam
+                    tempore nihil rerum quos!
+                </p>
+            </div>
+        </footer>
+    </body>
+</html>

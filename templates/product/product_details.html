@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+    <main class="product_page" id="main">
+        <div class="wrapper">
+            <img src="{{ product.image }}" id="rpoductImage" alt="" class="image">
+            <section class="info_section">
+                <h1 id="productName" class="heading"></h1>
+                <div class="additional">
+                    <p class="brant label">Brand:</p>
+                    <p id="productBrand" class="brand">{{ product.brand }}</p>
+                    <p class="category label">Category:</p>
+                    <p id="productCategory" class="category">{{ product.category }}</p>
+                    <p class="made_in label">Made in:</p>
+                    <p id="productMadeIn" class="made_in">{{ product.made_in }}</p>
+                </div>
+                <div class="delivery_info">
+                    <div class="type_delivery">
+                        <div id="inStockWrapper" class="in_stock">
+                            <i id="inStockIcon" class="fas fa-check"></i>
+                            <p>In Stock</p>
+                        </div>
+                        <div class="speed_delivery">
+                            <i class="fas fa-shipping-fast"></i>
+                            <p>Fast Delivery</p>
+                        </div>
+                        <div class="normal_delivery">
+                            <i class="fas fa-truck"></i>
+                            <p>Standart Delivery</p>
+                        </div>
+                    </div>
+                    <div class="date_to_delivery">
+                        <p>You may have it:</p>
+                        <p>on <span id="fast_date" class="colored"></span></p>
+                        <p>from <span id="normal_date1" class="colored"></span> to <span id="normal_date2" class="colored"></span></p>
+                    </div>
+                </div>
+                <p class="addition_delivery_description">
+                    * The delivery date is approximate and depends on the place of residence and the chosen courier company. You can find out the exact date on which the product will be with you, as well as the final delivery price, when completing the order.
+                </p>
+                <h3 class="product_description_label">Product Description</h3>
+                <p id="productDescription" class="product_description">
+                </p>
+            </section>
+            <section class="price_section">
+                <div id="price_wrapper">
+                    <span id="priceDesign" class="price">
+                        <span id="bigPrice" class="whole">32</span>
+                        <span id="smallPrice" class="cents">59
+                        </span>
+                        <span class="currency">
+                            lv.
+                        </span>
+                    </span>
+                    <div class="price_security">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>Price Protection</p>
+                    </div>
+                    <p class="price_desc">
+                        The price includes VAT.
+                    </p>
+                    <button id="buyBtn" class="btn buy_btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Buy
+                    </button>
+                </div>
+                <div class="add_to">
+                    <div class="add_to_favorites">
+                        <i class="far fa-heart"></i>
+                        <p>Add to favorites</p>
+                    </div>
+                    <div class="add_opinion">
+                        <i class="far fa-comment-alt"></i>
+                        <p>Rate the product</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}
