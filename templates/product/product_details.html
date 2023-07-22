@@ -11,16 +11,23 @@
                     <p class="brant label">Brand:</p>
                     <p id="productBrand" class="brand">{{ product.brand }}</p>
                     <p class="category label">Category:</p>
-                    <p id="productCategory" class="category">{{ product.category }}</p>
+                    <p id="productCategory" class="category">{{ product.category.name }}</p>
                     <p class="made_in label">Made in:</p>
                     <p id="productMadeIn" class="made_in">{{ product.made_in }}</p>
                 </div>
                 <div class="delivery_info">
                     <div class="type_delivery">
-                        <div id="inStockWrapper" class="in_stock">
-                            <i id="inStockIcon" class="fas fa-check"></i>
-                            <p>In Stock</p>
-                        </div>
+                        {% if product.quantity %}
+                            <div id="inStockWrapper" class="green in_stock">
+                                <i id="inStockIcon" class="fas fa-check"></i>
+                                <p>In Stock</p>
+                            </div>
+                        {% else %}
+                            <div id="inStockWrapper" class="red in_stock">
+                                <i id="inStockIcon" class="fas fa-times"></i>
+                                <p>In Stock</p>
+                            </div>
+                        {% endif %}
                         <div class="speed_delivery">
                             <i class="fas fa-shipping-fast"></i>
                             <p>Fast Delivery</p>
@@ -32,8 +39,8 @@
                     </div>
                     <div class="date_to_delivery">
                         <p>You may have it:</p>
-                        <p>on <span id="fast_date" class="colored"></span></p>
-                        <p>from <span id="normal_date1" class="colored"></span> to <span id="normal_date2" class="colored"></span></p>
+                        <p>on <span id="fast_date" class="colored">{{ date_after_two_days }}</span></p>
+                        <p>from <span id="normal_date1" class="colored">{{ date_after_two_days }}</span> to <span id="normal_date2" class="colored">{{ date_after_four_days }}</span></p>
                     </div>
                 </div>
                 <p class="addition_delivery_description">

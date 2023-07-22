@@ -1,31 +1,60 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block main %}
     <main class="index_page" id="main">
         <section class="products_wrapper">
             {% for product in products %}
-                <div class="product">
+
+                <div onclick="redirectToDetails({{ product.id }})" class="product">
                     <img src="{{ product.image }}" alt="" class="image">
                     <div class="data_section">
                         <div class="text_container">
                             <h3 class="heading">{{ product.name }}</h3>
                             <p class="price">{{ product.price }}</p>
                         </div>
-                        <i id="icon" class="far fa-heart"></i>
+                        {% if user.is_authenticated and product|is_in_favorites:request.user %}
+                            <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="fas fa-heart"></i>
+                        {% else %}
+                            <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="far fa-heart"></i>
+                        {% endif %}
                     </div>
                 </div>
+
             {% endfor %}
         </section>
     </main>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const containers = Array.from(document.querySelectorAll('.product'));
-            for (const container of containers) {
-                container.addEventListener('click', function() {
-                    window.location.href = '{% url 'ProductDetails' 1 %}';
-                });
+        function redirectToDetails(id) {
+            const theUrl = "{% url 'details_products' 0 %}".replace('0', id);
+            window.location.href = theUrl;
+        }
+
+        async function addToFavorites(e, id) {
+            e.stopPropagation();
+            try {
+                const fRes = await fetch(`http://127.0.0.1:8000/favorites/add/${id}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                if (fRes.status === 403) {
+                    window.location.href ='/auth/register'
+                }
+
+                if (fRes.status === 200) {
+                    if (e.target.classList.value === 'far fa-heart') {
+                        e.target.classList = 'fas fa-heart';
+                    } else {
+                        e.target.classList = 'far fa-heart';
+                    }
+                }
+            } catch (err) {
+                console.log(`error - ${err}`);
             }
 
-        });
+        }
 </script>
 {% endblock %}

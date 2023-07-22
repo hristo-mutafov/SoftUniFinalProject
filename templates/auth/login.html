@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <main id="main">
+            <section class="authentication">
+                <div class="authentication_wrapper">
+                    <h1>Login</h1>
+                    <form method="post" action="{% url 'login' %}" class="form">
+
+                        {% if form.errors %}
+                            {% for field_errors in form.errors.values %}
+                                {% for error in field_errors %}
+                                    <p id="error_messages">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+
+
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+                        {% csrf_token %}
+                        <button id="login_btn" class="authentication_btn">Login</button>
+
+
+                        <p class="login_message">
+                            Don't have an account?
+                            <a href="{% url 'register' %}">Register</a>
+                            here.
+                        </p>
+                    </form>
+                </div>
+
+            </section>
+        </main>
+
+{% endblock %}

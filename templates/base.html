@@ -12,25 +12,35 @@
     <body>
         <header class="header">
             <div class="header_wrapper">
-                <h1 class="logo"><a id="logo" href="/">MySite</a></h1>
+                <h1 class="logo"><a id="logo" href="{% url 'index' %}">MySite</a></h1>
                 <ul role="list" class="wrapper">
-                    <li class="list_item">
-                        <a href=""
-                            ><i class="far fa-user"></i
-                        ></a>
-                    </li>
-                    <li class="list_item disabled">
-                        <a href=""><i class="far fa-heart"></i></a>
-                    </li>
-                    <li id="cardListItem" class="list_item disabled">
-                        <a href=""><i class="fas fa-shopping-cart"></i></a>
-                        <p id="cartItemsCount"></p>
-                    </li>
-                    <li id="headerPrice" class="list_item disabled">0.00</li>
-                    <div class="navbar__toggle" id="mobile-menu">
-                        <span class="bar"></span> <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
+                    {% if user.is_authenticated %}
+                        <li class="list_item">
+                            <a href="{% url 'profile_navigator' %}"
+                                ><i class="far fa-user"></i
+                            ></a>
+                        </li>
+
+                        <li class="list_item">
+                            <a href=""><i class="far fa-heart"></i></a>
+                        </li>
+                        <li id="cardListItem" class="list_item">
+                            <a href=""><i class="fas fa-shopping-cart"></i></a>
+                            <p id="cartItemsCount"></p>
+                        </li>
+                        <li id="headerPrice" class="list_item">0.00</li>
+                        <div class="navbar__toggle" id="mobile-menu">
+                            <span class="bar"></span> <span class="bar"></span>
+                            <span class="bar"></span>
+                        </div>
+
+                    {% else %}
+                        <li class="list_item">
+                            <a href="{% url 'register' %}"
+                                ><i class="far fa-user"></i
+                            ></a>
+                        </li>
+                    {% endif %}
                 </ul>
 
             </div>
