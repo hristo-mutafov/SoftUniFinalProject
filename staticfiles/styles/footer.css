@@ -1,0 +1,20 @@
+.footer {
+    background-color: #1d1d1f;
+}
+
+.footer .wrapper {
+    max-width: 1920px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    color: #f5f5f7;
+    gap: 40px;
+    padding: 30px 50px;
+}
+
+@media screen and (max-width: 690px) {
+    .footer .wrapper {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(3, 1fr);
+    }
+}

@@ -1,0 +1,111 @@
+.profile {
+    padding: 100px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 25px;
+    color: #1d1d1f;
+}
+
+.profile .button_wrapper {
+    color: #1d1d1f;
+    text-decoration: none;
+    display: flex;
+    border: 2px solid #1d1d1f;
+    padding: 30px 50px;
+    width: 600px;
+    margin: 0px auto;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: width 150ms;
+}
+
+.profile .button_wrapper .lable {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.profile .button_wrapper:hover {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    width: 602px;
+}
+
+/* Aside navigation */
+
+.shorthand_nav {
+    align-self: start;
+    justify-self: center;
+    width: 100%;
+}
+
+.shorthand_nav .profile_nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.shorthand_nav .profile_nav .list_item {
+    padding: 10px 15px;
+    border-bottom: 1px solid lightgray;
+    color: #1d1d1f;
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.shorthand_nav .profile_nav .list_item a {
+    text-decoration: none;
+    color: #1d1d1f;
+}
+
+.shorthand_nav .profile_nav .list_item a:hover {
+    color: #0071e3;
+}
+
+/* Aside media */
+@media screen and (max-width: 768px) {
+    .shorthand_nav {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .profile .button_wrapper {
+        width: 400px;
+    }
+
+    .profile .button_wrapper:hover {
+        width: 402px;
+    }
+}
+
+@media screen and (max-width: 434px) {
+    .profile {
+        padding: 50px 0px;
+    }
+
+    .profile .button_wrapper {
+        width: 90%;
+        padding: 20px 10px;
+    }
+
+    .profile .button_wrapper:hover {
+        width: 91%;
+    }
+
+    .profile .button_wrapper .lable {
+        font-size: 18px;
+    }
+
+}
+
+@media screen and (max-width: 275px) {
+
+    .profile .button_wrapper .lable {
+        font-size: 14px;
+    }
+
+}
