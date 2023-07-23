@@ -52,7 +52,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
 class UserProfile(models.Model):
     NAMES_MAX_LEN = 30
-    PHONE_NUMBER_MAX_LEN = 10
+    PHONE_NUMBER_MAX_LEN = 14
     CITY_MAX_LEN = 20
 
     first_name = models.CharField(

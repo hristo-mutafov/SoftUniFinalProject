@@ -4,7 +4,7 @@
 
 {% block main %}
     <script defer src="{% static 'js/profileSettingsTogglePanel.js' %}"></script>
-    <script defer src="{% static 'js/profileSettingsFormsHandler.js' %}"></script>
+    <script defer src="{% static 'js/profileFormsHandler.js' %}"></script>
 
     <main id="main">
         <section class="profile_settings">
@@ -17,18 +17,18 @@
 
 
 
-                <form  class="form" onsubmit="changeName(event, 'changeName')">
+                <form  class="form" onsubmit="changeHandler(event, 'changeName')">
 
                     <p class="error_message">Error</p>
 
                     <div class="field_wrapper">
                         <label for="first_name">First Name:</label>
-                        <input name="first_name" id="first_name" type="text">
+                        <input name="first_name" id="first_name" type="text" value="{{ first_name }}">
                     </div>
 
                     <div class="field_wrapper">
                         <label for="last_name">Last Name:</label>
-                        <input name="last_name" type="text" id="last_name">
+                        <input name="last_name" type="text" id="last_name" value="{{ last_name }}">
                     </div>
 
                     <button id="saveName" class="btn">Save</button>
@@ -44,7 +44,7 @@
                     Change Email
                 </h3>
 
-                <form class="form" onsubmit="changeName(event, 'changeEmail')">
+                <form class="form" onsubmit="changeHandler(event, 'changeEmail')">
                     <p class="error_message"></p>
 
                     <div class="field_wrapper">
@@ -71,7 +71,7 @@
                     Change Password
                 </h3>
 
-                <form class="form" onsubmit="changeName(event, 'changePassword')">
+                <form class="form" onsubmit="changeHandler(event, 'changePassword')">
                     <p class="error_message"></p>
 
                     <div class="field_wrapper">
@@ -113,7 +113,7 @@
                 <ul role="list" class="profile_nav">
                     <li id="my_profile" class="list_item"><a href="{% url 'profile_navigator' %}">My Profile</a></li>
                     <li id="profile_settings" style="background-color: rgba(0, 113, 227, 0.3);" class="list_item"><a href="{% url 'profile_settings' %}">Profile Settings</a></li>
-                    <li id="profile_addresses" class="list_item"><a>Addresses</a></li>
+                    <li id="profile_addresses" class="list_item"><a href="{% url 'profile_addresses' %}">Addresses</a></li>
                     <li id="profile_orders" class="list_item"><a>Orders</a></li>
                     <li id="profile_logout" class="list_item"><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
@@ -130,8 +130,8 @@
                                 <i class="fas fa-user"></i>
                                 <div class="field_wrapper">
                                     <p class="field_label">Name:</p>
-                                    {% if name and name != ' ' %}
-                                        <p id="name_field" class="field">{{ name }}</p>
+                                    {% if first_name and last_name %}
+                                        <p id="name_field" class="field">{{ first_name }} {{ last_name }}</p>
                                     {% else %}
                                         <p id="name_field" class="field">Not filled</p>
                                     {% endif %}

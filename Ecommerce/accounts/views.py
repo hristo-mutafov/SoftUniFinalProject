@@ -44,6 +44,17 @@ class Register(views.CreateView):
         return data
 
 
+class DeleteProfile(LoginRequiredMixin, views.View):
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        profile = user.userprofile
+
+        user.delete()
+        profile.delete()
+
+        return redirect('index')
+
+
 @login_required()
 def show_navigator(request):
     return render(request, 'profile/profile.html')
@@ -53,11 +64,25 @@ def show_navigator(request):
 def show_profile_settings(request):
     user = request.user
     context = {
-        'name': f'{user.userprofile.first_name} {user.userprofile.last_name}',
+        'first_name': user.userprofile.first_name,
+        'last_name': user.userprofile.last_name,
         'email': user.email
     }
 
     return render(request, 'profile/profile_settings.html', context)
+
+
+@login_required
+def show_profile_address_information(request):
+    user = request.user
+
+    context = {
+        'city': user.userprofile.city,
+        'address': user.userprofile.address,
+        'phone_number': user.userprofile.phone_number
+    }
+
+    return render(request, 'profile/profile_addresses.html', context)
 
 
 def update_user_name(request):
@@ -145,12 +170,74 @@ def update_user_password(request):
         raise Http404()
 
 
-class DeleteProfile(LoginRequiredMixin, views.View):
-    def post(self, request, *args, **kwargs):
-        user = self.request.user
-        profile = user.userprofile
+def update_user_city(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            raw_data = request.body
+            data = json.loads(raw_data)
 
-        user.delete()
-        profile.delete()
+            if not data['city'].strip():
+                return JsonResponse({'message': 'Fill the field!'}, status=400)
 
-        return redirect('index')
+            user.userprofile.city = data['city']
+            user.userprofile.save()
+            return JsonResponse({'message': 'Changes applied successfully!'}, status=200)
+
+        except:
+            return JsonResponse({'message': 'Something went wrong'}, status=500)
+
+    else:
+        raise Http404()
+
+
+def update_user_address(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            raw_data = request.body
+            data = json.loads(raw_data)
+
+            if not data['address'].strip():
+                return JsonResponse({'message': 'Fill the field!'}, status=400)
+
+            if len(data['address'].strip()) < 5:
+                return JsonResponse({'message': 'Address must be at least 5 characters!'}, status=400)
+
+            user.userprofile.address = data['address']
+            user.userprofile.save()
+            return JsonResponse({'message': 'Changes applied successfully!'}, status=200)
+
+        except:
+            return JsonResponse({'message': 'Something went wrong'}, status=500)
+
+    else:
+        raise Http404()
+
+
+def update_user_phone_number(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            raw_data = request.body
+            data = json.loads(raw_data)
+
+            if not data['phone_number'].strip():
+                return JsonResponse({'message': 'Fill the field!'}, status=400)
+
+            if not data['phone_number'].strip()[0] == '+':
+                return JsonResponse({'message': 'Phone number need to start with \'+\' sign!'}, status=400)
+
+            if len(data['phone_number'].strip()) < 13:
+                return JsonResponse({'message': 'Phone number must be at least 13 characters!'}, status=400)
+
+            user.userprofile.phone_number = data['phone_number'].replace(' ', '')
+            user.userprofile.save()
+            return JsonResponse({'message': 'Changes applied successfully!'}, status=200)
+
+        except:
+            return JsonResponse({'message': 'Something went wrong'}, status=500)
+
+    else:
+        raise Http404()
+
