@@ -1,215 +1,180 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="../../styles/syles.css" />
-        <title>Ecommerce | Profile</title>
-    </head>
-    <body>
-        <script type="module" defer src="../../functionality//homePageFunc/homePageOnLoad.js"></script>
-        <script type="module" defer src="../../functionality/profile/profileSettings/onLoad.js"></script>
-        <script type="module" defer src="../../functionality/profile/profileSettings/buttonsManagment.js"></script>
-        <script defer src="../../functionality/profile/mainProfileManages.js"></script>
-        <header class="header">
-            <div class="header_wrapper">
-                <h1 class="logo"><a id="logo" href="/">MySite</a></h1>
-                <ul role="list" class="wrapper">
-                    <li class="list_item">
-                        <a href="pages/auth/register.html"
-                            ><i class="far fa-user"></i
-                        ></a>
-                    </li>
-                    <li class="list_item disabled">
-                        <a href=""><i class="far fa-heart"></i></a>
-                    </li>
-                    <li id="cardListItem" class="list_item disabled">
-                        <a href=""><i class="fas fa-shopping-cart"></i></a>
-                        <p id="cartItemsCount"></p>
-                    </li>
-                    <li id="headerPrice" class="list_item disabled">0.00</li>
-                    <div class="navbar__toggle" id="mobile-menu">
-                        <span class="bar"></span> <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </ul>
-                
-            </div>
-            <ul role="list" class="wrapper mobile">
-                <li class="list_item">
-                    <a href="pages/auth/register.html"
-                        >Profile</a>
-                </li>
-                <li class="list_item disabled">
-                    <a href="">Favorites</a>
-                </li>
-            </ul>
-        </header>
+{% extends 'base.html' %}
+{% load static %}
 
-        <main id="main">
-            <section class="profile_settings">
 
-                <div id="change_name_panel" class="edit_panel">
-                    <i class="fas fa-times"></i>
-                    <h3 class="heading">
-                        Change name
-                    </h3>
-                    <p class="error_message"></p>
+{% block main %}
+    <script defer src="{% static 'js/profileSettingsTogglePanel.js' %}"></script>
+    <script defer src="{% static 'js/profileSettingsFormsHandler.js' %}"></script>
+
+    <main id="main">
+        <section class="profile_settings">
+
+            <div id="change_name_panel" class="edit_panel">
+                <i onclick="closePanel(event)" class="fas fa-times"></i>
+                <h3 class="heading">
+                    Change name
+                </h3>
+
+
+
+                <form  class="form" onsubmit="changeName(event, 'changeName')">
+
+                    <p class="error_message">Error</p>
+
                     <div class="field_wrapper">
                         <label for="first_name">First Name:</label>
-                        <input id="first_name" type="text">
+                        <input name="first_name" id="first_name" type="text">
                     </div>
-                   
+
                     <div class="field_wrapper">
                         <label for="last_name">Last Name:</label>
-                        <input type="text" id="last_name">
+                        <input name="last_name" type="text" id="last_name">
                     </div>
-                    
 
                     <button id="saveName" class="btn">Save</button>
-                </div>
 
-                <div id="change_email_panel" class="edit_panel">
-                    <i class="fas fa-times"></i>
-                    <h3 class="heading">
-                        Change Email
-                    </h3>
+                </form>
+
+
+            </div>
+
+            <div id="change_email_panel" class="edit_panel">
+                <i onclick="closePanel(event)" class="fas fa-times"></i>
+                <h3 class="heading">
+                    Change Email
+                </h3>
+
+                <form class="form" onsubmit="changeName(event, 'changeEmail')">
                     <p class="error_message"></p>
+
                     <div class="field_wrapper">
                         <label for="emailInput">New Email:</label>
-                        <input id="emailInput" type="text">
+                        <input name="email" id="emailInput" type="text">
                     </div>
-                   
+
                     <div class="field_wrapper">
                         <label for="passwordInput">Password:</label>
-                        <input id="passwordInput" type="password">
+                        <input name="password" id="passwordInput" type="password">
                     </div>
-                    
 
-                    <button id="saveEmail" class="btn">Save</button>
-                </div>
+                    <button name="email_form" id="saveEmail" class="btn">Save</button>
 
-                <div id="change_password_panel" class="edit_panel">
-                    <i class="fas fa-times"></i>
-                    <h3 class="heading">
-                        Change Password
-                    </h3>
+                </form>
+
+
+
+            </div>
+
+            <div id="change_password_panel" class="edit_panel">
+                <i onclick="closePanel(event)" class="fas fa-times"></i>
+                <h3 class="heading">
+                    Change Password
+                </h3>
+
+                <form class="form" onsubmit="changeName(event, 'changePassword')">
                     <p class="error_message"></p>
+
                     <div class="field_wrapper">
                         <label for="oldPasswordInput">Old Password:</label>
-                        <input id="oldPasswordInput" type="password">
+                        <input name="old_password" id="oldPasswordInput" type="password">
                     </div>
-                   
+
                     <div class="field_wrapper">
                         <label for="newPasswordInput">New Password:</label>
-                        <input id="newPasswordInput" type="password">
+                        <input name="new_password" id="newPasswordInput" type="password">
                     </div>
 
                     <div class="field_wrapper">
-                        <label for="repetPasswordInput">Repeat New Password:</label>
-                        <input id="repetPasswordInput" type="password">
+                        <label for="repeatPasswordInput">Repeat New Password:</label>
+                        <input name="repeat_new_password" id="repeatPasswordInput" type="password">
                     </div>
-                    
+
 
                     <button id="savePassword" class="btn">Save</button>
-                </div>
 
-                <div id="delete_profile_panel" class="edit_panel">
-                    <i class="fas fa-times"></i>
-                    <h3 class="heading">
-                        Delete Profile
-                    </h3>
-                    <button id="deleteProfileBtn" class="btn">Delete</button>
-                </div>
+                </form>
 
 
-                <aside class="shorthand_nav">
-                    <ul role="list" class="profile_nav">
-                        <li id="my_profile" class="list_item">My Profile</li>
-                        <li id="profile_settings" style="background-color: rgba(0, 113, 227, 0.3);" class="list_item">Profile Settings</li>
-                        <li id="profile_addresses" class="list_item">Addresses</li>
-                        <li id="profile_orders" class="list_item">Orders</li>
-                        <li id="profile_logout" class="list_item"><i class="fas fa-sign-out-alt"></i> Logout</li>
-                    </ul>
-                </aside>
-
-                <section class="settings">
-                    <div class="credentials">
-                        <h2 class="heading">
-                            Profile Data
-                        </h2>
-                        <ul role="list">
-                            <li class="list_item">
-                                <div class="data">
-                                    <i class="fas fa-user"></i>
-                                    <div class="field_wrapper">
-                                        <p class="field_label">Name:</p>
-                                        <p id="name_field" class="field">Not filled</p>
-                                    </div>
-                                </div>
-                                <button id="edit_name_btn" class="btn"><i class="far fa-edit"></i> Edit</button>
-                            </li>
-                            <li class="list_item">
-                                <div class="data">
-                                    <i class="fas fa-envelope"></i>
-                                    <div class="field_wrapper">
-                                        <p class="field_label">Email:</p>
-                                        <span id="email_field" class="field"></span>
-                                    </div>
-                                </div>
-                                <button id="edit_email_btn" class="btn"><i class="far fa-edit"></i> Edit</button>
-                            </li>
-                            <li class="list_item">
-                                <div class="data">
-                                    <i class="fas fa-lock"></i>
-                                    <div class="field_wrapper">
-                                        <p class="field_label">Password:</p>
-                                        <p class="field">********</p>
-                                    </div>
-                                </div>
-                                <button id="change_password_btn" class="btn"><i class="far fa-edit"></i> Edit</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="profile_delete">
-                        <h2 class="heading">
-                            Delete Profile
-                        </h2>
-                        <div class="wrapper">
-                            <p class="text">
-                                Deletes the profile permanently
-                            </p>
-                            <button id="deleteBtn" class="btn">Delete</button>
-                        </div>
-                        
-                    </div>
-                </section>
-            </section>
-            
-           
-        </main>
-
-        <footer class="footer">
-            <div class="wrapper">
-                <p class="text">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem
-                    facere beatae incidunt rem rerum quos quo temporibus enim
-                    dolorem veniam?
-                </p>
-                <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam
-                    dignissimos eius rerum deleniti expedita veniam eaque, tenetur
-                    placeat totam. Eveniet.
-                </p>
-                <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Exercitationem nostrum, nesciunt qui ipsa non officia! Quam
-                    tempore nihil rerum quos!
-                </p>
             </div>
-            
-        </footer>
-        
-    </body>
-</html>
+
+            <div id="delete_profile_panel" class="edit_panel">
+                <i onclick="closePanel(event)" class="fas fa-times"></i>
+                <h3 class="heading">
+                    Delete Profile
+                </h3>
+                <form method="post" action="{% url 'delete_profile' %}">
+                    {% csrf_token %}
+                    <button id="deleteProfileBtn" class="btn">Delete</button>
+                </form>
+            </div>
+
+
+            <aside class="shorthand_nav">
+                <ul role="list" class="profile_nav">
+                    <li id="my_profile" class="list_item"><a href="{% url 'profile_navigator' %}">My Profile</a></li>
+                    <li id="profile_settings" style="background-color: rgba(0, 113, 227, 0.3);" class="list_item"><a href="{% url 'profile_settings' %}">Profile Settings</a></li>
+                    <li id="profile_addresses" class="list_item"><a>Addresses</a></li>
+                    <li id="profile_orders" class="list_item"><a>Orders</a></li>
+                    <li id="profile_logout" class="list_item"><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </aside>
+
+            <section class="settings">
+                <div class="credentials">
+                    <h2 class="heading">
+                        Profile Data
+                    </h2>
+                    <ul role="list">
+                        <li class="list_item">
+                            <div class="data">
+                                <i class="fas fa-user"></i>
+                                <div class="field_wrapper">
+                                    <p class="field_label">Name:</p>
+                                    {% if name and name != ' ' %}
+                                        <p id="name_field" class="field">{{ name }}</p>
+                                    {% else %}
+                                        <p id="name_field" class="field">Not filled</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <button onclick="showNamePanel()" id="edit_name_btn" class="btn"><i class="far fa-edit"></i> Edit</button>
+                        </li>
+                        <li class="list_item">
+                            <div class="data">
+                                <i class="fas fa-envelope"></i>
+                                <div class="field_wrapper">
+                                    <p class="field_label">Email:</p>
+                                    <span id="email_field" class="field">{{ email }}</span>
+                                </div>
+                            </div>
+                            <button onclick="showEmailPanel()" id="edit_email_btn" class="btn"><i class="far fa-edit"></i> Edit</button>
+                        </li>
+                        <li class="list_item">
+                            <div class="data">
+                                <i class="fas fa-lock"></i>
+                                <div class="field_wrapper">
+                                    <p class="field_label">Password:</p>
+                                    <p class="field">********</p>
+                                </div>
+                            </div>
+                            <button onclick="showPasswordPanel()" id="change_password_btn" class="btn"><i class="far fa-edit"></i> Edit</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="profile_delete">
+                    <h2 class="heading">
+                        Delete Profile
+                    </h2>
+                    <div class="wrapper">
+                        <p class="text">
+                            Deletes the profile permanently
+                        </p>
+                        <button onclick="showDeletePanel()" id="deleteBtn" class="btn">Delete</button>
+                    </div>
+
+                </div>
+            </section>
+        </section>
+    </main>
+
+{% endblock %}

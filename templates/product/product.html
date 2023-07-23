@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load custom_tags %}
 
 {% block main %}
+    <script defer>
+        function redirectToDetails(id) {
+            window.location.href = "{% url 'details_products' 0 %}".replace('0', id);
+        }
+    </script>
+    <script defer src="{% static 'js/addToFavoritesHandler.js' %}"></script>
+
     <main class="index_page" id="main">
         <section class="products_wrapper">
             {% for product in products %}
@@ -24,37 +32,4 @@
             {% endfor %}
         </section>
     </main>
-    <script>
-        function redirectToDetails(id) {
-            const theUrl = "{% url 'details_products' 0 %}".replace('0', id);
-            window.location.href = theUrl;
-        }
-
-        async function addToFavorites(e, id) {
-            e.stopPropagation();
-            try {
-                const fRes = await fetch(`http://127.0.0.1:8000/favorites/add/${id}/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    }
-                })
-                if (fRes.status === 403) {
-                    window.location.href ='/auth/register'
-                }
-
-                if (fRes.status === 200) {
-                    if (e.target.classList.value === 'far fa-heart') {
-                        e.target.classList = 'fas fa-heart';
-                    } else {
-                        e.target.classList = 'far fa-heart';
-                    }
-                }
-            } catch (err) {
-                console.log(`error - ${err}`);
-            }
-
-        }
-</script>
 {% endblock %}

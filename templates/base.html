@@ -10,6 +10,10 @@
         <title>Ecommerce</title>
     </head>
     <body>
+        <script>
+            const BASE_URL = 'http://127.0.0.1:8000/';
+            const CSRF_TOKEN = '{{ csrf_token }}';
+        </script>
         <header class="header">
             <div class="header_wrapper">
                 <h1 class="logo"><a id="logo" href="{% url 'index' %}">MySite</a></h1>

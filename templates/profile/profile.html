@@ -5,37 +5,37 @@
 
     <main id="main">
             <section class="profile">
-                <div id="profile_settings" class="button_wrapper">
+                <a href="{% url 'profile_settings' %}" id="profile_settings" class="button_wrapper">
                     <div class="lable">
                         <i class="fas fa-user-cog"></i>
                         <p class="text">Profile Settings</p>
                     </div>
                     <i class="fas fa-chevron-right"></i>
-                </div>
+                </a>
 
-                <div id="profile_addresses" class="button_wrapper">
+                <a id="profile_addresses" class="button_wrapper">
                     <div class="lable">
                         <i class="fas fa-map-marked-alt"></i>
                         <p class="text">Addresses</p>
                     </div>
                     <i class="fas fa-chevron-right"></i>
-                </div>
+                </a>
 
-                <div id="profile_orders" class="button_wrapper">
+                <a id="profile_orders" class="button_wrapper">
                     <div class="lable">
                         <i class="fas fa-box-open"></i>
                         <p class="text">Orders</p>
                     </div>
                     <i class="fas fa-chevron-right"></i>
-                </div>
+                </a>
 
-                <div id="profile_logout" class="button_wrapper">
+                <a href="{% url 'logout' %}" id="profile_logout" class="button_wrapper">
                     <div class="lable">
                         <i class="fas fa-sign-out-alt"></i>
                         <p class="text">Logout</p>
                     </div>
                     <i class="fas fa-chevron-right"></i>
-                </div>
+                </a>
             </section>
         </main>
 

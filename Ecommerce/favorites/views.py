@@ -1,6 +1,6 @@
 from django.core import exceptions
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from Ecommerce.favorites.models import Favorites
 from Ecommerce.products.models import Product
@@ -20,6 +20,8 @@ def add_to_favorites(request, product_id):
             return JsonResponse({'message': 'removed'}, status=200)
         user.favorites.products.add(product)
         return JsonResponse({'message': 'added'}, status=200)
+    else:
+        return redirect('index')
 
 
 
