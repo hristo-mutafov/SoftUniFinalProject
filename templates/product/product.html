@@ -12,24 +12,28 @@
 
     <main class="index_page" id="main">
         <section class="products_wrapper">
-            {% for product in products %}
+            {% if products %}
+                {% for product in products %}
 
-                <div onclick="redirectToDetails({{ product.id }})" class="product">
-                    <img src="{{ product.image }}" alt="" class="image">
-                    <div class="data_section">
-                        <div class="text_container">
-                            <h3 class="heading">{{ product.name }}</h3>
-                            <p class="price">{{ product.price }}</p>
+                    <div onclick="redirectToDetails({{ product.id }})" class="product">
+                        <img src="{{ product.image }}" alt="" class="image">
+                        <div class="data_section">
+                            <div class="text_container">
+                                <h3 class="heading">{{ product.name }}</h3>
+                                <p class="price">{{ product.price }}</p>
+                            </div>
+                            {% if user.is_authenticated and product|is_in_favorites:request.user %}
+                                <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="fas fa-heart"></i>
+                            {% else %}
+                                <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="far fa-heart"></i>
+                            {% endif %}
                         </div>
-                        {% if user.is_authenticated and product|is_in_favorites:request.user %}
-                            <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="fas fa-heart"></i>
-                        {% else %}
-                            <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="far fa-heart"></i>
-                        {% endif %}
                     </div>
-                </div>
 
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <h1 class="emptyPageMassage">There is no products yet!</h1>
+            {% endif %}
         </section>
     </main>
 {% endblock %}
