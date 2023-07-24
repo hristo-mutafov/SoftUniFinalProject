@@ -29,10 +29,12 @@
                             <a href="{% url 'get_favourite_products' %}"><i class="far fa-heart"></i></a>
                         </li>
                         <li id="cardListItem" class="list_item">
-                            <a href=""><i class="fas fa-shopping-cart"></i></a>
-                            <p id="cartItemsCount"></p>
+                            <a href="{% url 'show_cart' %}"><i class="fas fa-shopping-cart"></i></a>
+                            {% if cart_products_count != 0 %}
+                                <p id="cartItemsCount">{{ cart_products_count }}</p>
+                            {% endif %}
                         </li>
-                        <li id="headerPrice" class="list_item">0.00</li>
+                        <li id="headerPrice" class="list_item">{{ overall_products_price|floatformat:2 }}</li>
                         <div class="navbar__toggle" id="mobile-menu">
                             <span class="bar"></span> <span class="bar"></span>
                             <span class="bar"></span>

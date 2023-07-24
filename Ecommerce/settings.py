@@ -54,6 +54,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Ecommerce.core.context_processors.cart_products_count',
+                'Ecommerce.core.context_processors.overall_products_price',
             ],
         },
     },

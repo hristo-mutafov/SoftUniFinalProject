@@ -132,6 +132,12 @@
     color: #0071e3;
 }
 
+.product_page .wrapper .price_section #price_wrapper .buy_btn:disabled:hover {
+    cursor: not-allowed;
+    background-color: #024182;
+    color: #f5f5f7;
+}
+
 .product_page .wrapper .price_section .add_to {
     background-color: rgb(229, 225, 225);
     margin-top: 5px;

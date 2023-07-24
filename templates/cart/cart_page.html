@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_filters %}
+{% load cart_tags %}
+
+
+{% block main %}
+    <script defer src="{% static 'js/chageProductCountInCart.js' %}"></script>
+    <main class="cart_page" id="main">
+        {% if not products %}
+            <section class="empty_cart active">
+                <h1 id="empty_cart_heading">YOUR CART IS EMPTY</h1>
+                <p id="empty_cart_desc">Add product to cart before proceeding.</p>
+                <a href="{% url 'index' %}" id="empty_cart_refirect_button">Go To Home Page</a>
+            </section>
+        {% else %}
+            <section class="main_section">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th class="mobile">Single price</th>
+                        <th class="mobile">Count</th>
+                        <th class="mobile">Price</th>
+                        <th class="mobile"></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    {% for product in products %}
+                        <tr>
+                        <td class="image_and_desc">
+                            <img id="product_image" src="{{ product.image }}" alt="product">
+                            <div class="wrapper">
+                                <p id="product_name" class="product_name">{{ product.name }}</p>
+                                <div class="brand_wrapper">
+                                    <p class="brand_label">Brand:</p>
+                                    <p id="product_brand" class="brand">{{ product.brand }}</p>
+                                </div>
+                                <p class="delivery_date">Delivery on <span id="product_delivery_date" class="colored">{% get_date_two_days_forward %}</span></p>
+                            </div>
+                        </td>
+                        <td id="single_price_sec">
+                            <span id="priceDesign" class="price">
+                                <span id="bigPrice" class="whole">{{ product.price|get_full_price }}</span>
+                                <span id="smallPrice" class="cents">{{ product.price|get_cents }}
+                                </span>
+                                <span class="currency">
+                                    lv.
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="count_wrapper">
+                                <button onclick="decreaseCount(event, {{ product.id }})" id="decrease_btn" class="decrease_btn"><i class="fas fa-minus"></i></button>
+                                <p class="product_count">{{ product.count }}</p>
+                                <button onclick="increaseCount(event, {{ product.id }})" id="increase_btn" class="increase_btn"><i class="fas fa-plus"></i></button>
+                            </div>
+
+                        </td>
+                        <td id="total_price_sec">
+                            {% get_whole_price product.price product.count as total_price %}
+                            <span id="priceDesign" class="price">
+                                <span id="bigPrice" class="whole">{{ total_price|get_full_price }}</span>
+                                <span id="smallPrice" class="cents">{{ total_price|get_cents }}
+                                </span>
+                                <span class="currency">
+                                    lv.
+                                </span>
+                            </span>
+                        </td>
+                        <td class="remove_item">
+                            <form method="post" action="{% url 'remove_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <button id="remove_item_btn"><i class="fas fa-times"></i></button>
+                            </form>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="price_menu">
+                <div class="subtotal_price_wrapper">
+                    <p class="label">Subtotal price:</p>
+                    <p id="subtotal_price" class="subtotal">{{ overall_products_price|floatformat:2 }}lv.</p>
+                </div>
+                <div class="total_price_wrapper">
+                    <p class="label">Total Price:</p>
+                    <p id="total_price" class="total">{{ overall_products_price|floatformat:2 }}lv.</p>
+                </div>
+                <button id="go_to_finish_btn" class="to_finish_btn">Go to Finish</button>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+{% endblock %}

@@ -67,10 +67,14 @@
                     <p class="price_desc">
                         The price includes VAT.
                     </p>
-                    <button id="buyBtn" class="btn buy_btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        Buy
-                    </button>
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button {% if not product.quantity  %} disabled {% endif %} id="buyBtn" class="btn buy_btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Buy
+                        </button>
+                    </form>
+
                 </div>
                 <div class="add_to">
                     <div class="add_to_favorites">
