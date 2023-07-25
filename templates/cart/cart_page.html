@@ -88,7 +88,7 @@
                     <p class="label">Total Price:</p>
                     <p id="total_price" class="total">{{ overall_products_price|floatformat:2 }}lv.</p>
                 </div>
-                <button id="go_to_finish_btn" class="to_finish_btn">Go to Finish</button>
+                <a href="{% url 'show_order' %}"><button id="go_to_finish_btn" class="to_finish_btn">Go to Finish</button></a>
             </div>
         </section>
         {% endif %}

@@ -9,7 +9,13 @@ from Ecommerce.products.models import Product
 
 class PaymentMethodEnum(GetEnumValuesMixin, GetEnumMaxLenValueMixin, enum.Enum):
     cash_on_delivery = 'Cash On Delivery'
-    stipe = 'Stripe'
+    stripe = 'Stripe'
+
+
+class DeliveryMethodEnum(GetEnumValuesMixin, GetEnumMaxLenValueMixin, enum.Enum):
+    dhl_office = 'Delivery To DHL Office'
+    dhl_express_office = 'Express Delivery To DHL Office'
+    to_address = 'To Address'
 
 
 class Order(models.Model):
@@ -34,8 +40,22 @@ class Order(models.Model):
     payment_method = models.CharField(
         choices=PaymentMethodEnum.get_values(),
         max_length=PaymentMethodEnum.get_longer_value(),
+        default=PaymentMethodEnum.cash_on_delivery.value,
         null=False,
         blank=False
+    )
+
+    delivery_method = models.CharField(
+        choices=DeliveryMethodEnum.get_values(),
+        max_length=DeliveryMethodEnum.get_longer_value(),
+        default=DeliveryMethodEnum.to_address.value,
+        null=False,
+        blank=False
+    )
+
+    comment = models.TextField(
+        null=True,
+        blank=True
     )
 
     price = models.DecimalField(

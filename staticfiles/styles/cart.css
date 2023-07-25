@@ -136,6 +136,7 @@
 }
 
 .cart_page .price_menu .to_finish_btn {
+    width: 100%;
     border: none;
     background-color: #0071e3;
     color: #f5f5f7;

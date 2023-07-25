@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block main %}
+    <script defer src="https://js.stripe.com/v3/"></script>
+    <script defer src="{% static 'js/order_payment_toggler.js' %}"></script>
+    <main class="order_page" id="main">
+        <form id="order_form" method="post" action="{% url 'show_order' %}">
+            {% csrf_token %}
+            <section class="method">
+                <div class="section_heading_wrapper">
+                    <i class="fas fa-truck"></i>
+                    <h2 class="section_heading">Delivery method</h2>
+                </div>
+                <div class="main">
+                    <div id="deliveryMethodForm" class="method_form">
+                        {{ order_method_form.delivery_method }}
+                    </div>
+
+                    <div class="data">
+                        <h2 class="heading">
+                            WE WILL DELIVER YOUR SHIPMENT TO
+                        </h2>
+
+                        <div class="field_wrapper">
+                            {{ profile_information_form.first_name.label_tag }}
+                            {{ profile_information_form.first_name }}
+                        </div>
+                        <div class="field_wrapper">
+                            {{ profile_information_form.last_name.label_tag }}
+                            {{ profile_information_form.last_name }}
+                        </div>
+                        <div class="field_wrapper">
+                            {{ profile_information_form.phone_number.label_tag }}
+                            {{ profile_information_form.phone_number }}
+                        </div>
+                        <div class="field_wrapper">
+                            {{ profile_information_form.address.label_tag }}
+                            {{ profile_information_form.address }}
+                        </div>
+                        <div class="field_wrapper">
+                            {{ profile_information_form.city.label_tag }}
+                            {{ profile_information_form.city }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="method">
+                <div class="section_heading_wrapper">
+                    <i class="fas fa-money-check"></i>
+                    <h2 class="section_heading">Payment method</h2>
+                </div>
+                <div class="main">
+
+                    {{ order_payment_form.payment_method }}
+
+                    <div id="cardInfoWrapper" class="data">
+                    </div>
+                </div>
+            </section>
+            <section class="additional">
+            <div class="method">
+                <div class="section_heading_wrapper">
+                    <i class="fas fa-comment"></i>
+                    <h2 class="section_heading">Add Comment</h2>
+                </div>
+                <div class="main">
+                    {{ comment_form.comment }}
+                </div>
+            </div>
+
+            <div class="method">
+                <div class="section_heading_wrapper">
+                    <i class="fas fa-money-bill-alt"></i>
+                    <h2 class="section_heading">Price</h2>
+                </div>
+                <div class="main">
+                    <div class="price_wrapper">
+                        <p class="label">Subtotal</p>
+                        <p id="price" class="price">{{ overall_products_price|floatformat:2 }}lv.</p>
+                    </div>
+                    <div class="price_wrapper">
+                        <p class="label">Delivery</p>
+                        <p class="price">0.00lv</p>
+                    </div>
+                    <div class="price_wrapper total">
+                        <p class="label">TOTAL:</p>
+                        <p id="price" class="price">{{ overall_products_price|floatformat:2 }}lv.</p>
+                    </div>
+                    <p class="error_message"></p>
+
+                    <button type="button" id="finish_order_btn" class="finish_order">Finish Order</button>
+                    <button form="order_form" id="hidden_finish_order_btn" hidden></button>
+                </div>
+            </div>
+        </section>
+        </form>
+
+    </main>
+    <script>
+        window.addEventListener('load', mountForm)
+        const fakeBuyButton = document.querySelector('#finish_order_btn')
+        const realButton = document.querySelector('#hidden_finish_order_btn')
+        const errorMessage = document.querySelector('#order_form > section.additional > div:nth-child(2) > div.main > p')
+
+        let stripe;
+        let cardElement;
+
+        async function mountForm() {
+            const priceWrapper = document.querySelector('#cardInfoWrapper.data')
+
+            stripe = Stripe('{{ publishable_key }}');
+            const elements = stripe.elements();
+            cardElement = elements.create('card');
+            cardElement.mount('#cardInfoWrapper.data');
+            priceWrapper.style.display = 'none'
+        }
+
+
+        fakeBuyButton.addEventListener('click', async () => {
+            const withStripeButton = document.querySelector("#id_payment_method_1")
+            if (withStripeButton.checked) {
+                const clientSecret = await getClientSecret()
+                if (clientSecret) {
+                    const res = await payWithStipe(clientSecret)
+                    if (res) {
+                        realButton.click()
+                    }
+                }
+
+            } else {
+                realButton.click()
+            }
+        })
+
+        async function payWithStipe(clientSecret) {
+            const { paymentIntent, error } = await stripe.confirmCardPayment(
+                clientSecret,
+                {
+                    payment_method: {
+                        card: cardElement,
+                    },
+                }
+            );
+            if (error) {
+                errorMessage.textContent = error.message;
+            } else {
+                return true;
+            }
+        }
+
+        async function getClientSecret() {
+            const URL = BASE_URL + '/orders/retrieve_client_secret/';
+            const fRes = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    'X-CSRFToken': CSRF_TOKEN
+                }
+            });
+            if (fRes.status !== 200) {
+                errorMessage.textContent = 'There is problem with the server. Try again later.';
+                return false
+            }
+            const jsonRes = await fRes.json();
+            return jsonRes.client_secret;
+        }
+    </script>
+
+{% endblock %}
