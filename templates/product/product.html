@@ -11,6 +11,14 @@
     <script defer src="{% static 'js/addToFavoritesHandler.js' %}"></script>
 
     <main class="index_page" id="main">
+        <div class="form_wrapper">
+            <form method="get" clss="index_page_form">
+{#                <input class="wide_input">#}
+                {{ search_form.search_query }}
+                <button class="submit_button"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+
         <section class="products_wrapper">
             {% if products %}
                 {% for product in products %}

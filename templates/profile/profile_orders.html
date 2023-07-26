@@ -21,8 +21,10 @@
                     <h2 class="heading">
                         My Orders
                     </h2>
+                {% if orders %}
                     <ul id="order_wrapper" role="list">
-                        {% for order in orders %}
+
+                            {% for order in orders %}
                             <li id="listItem" class="list_item">
                                 <div class="order_data">
                                     <div class="field_wrapper">
@@ -50,7 +52,11 @@
                                 <a href="{% url 'order_detail'  %}?order_uuid={{ order.order_number }}"><button id="viewBtn" class="btn"><i class="fas fa-eye"></i> View Order</button></a>
                             </li>
                         {% endfor %}
+
                     </ul>
+                {% else %}
+                    <h1 id="empty_order_page" class="empty_order_page">No Orders Yet</h1>
+                {% endif %}
                 </div>
             </section>
         </section>
