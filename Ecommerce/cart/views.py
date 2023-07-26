@@ -102,7 +102,3 @@ def edit_product_quantity_in_cart(request, product_id):
 
     else:
         raise Http404
-
-
-class DecreaseProductQuantityInCart:
-    pass

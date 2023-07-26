@@ -3,6 +3,7 @@ import uuid
 
 from django.db import models
 
+from Ecommerce.accounts.models import AppUser
 from Ecommerce.utils.model_mixins import GetEnumValuesMixin, GetEnumMaxLenValueMixin
 from Ecommerce.products.models import Product
 
@@ -69,6 +70,8 @@ class Order(models.Model):
         Product,
         through='OrderProducts'
     )
+
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
 
 class OrderProducts(models.Model):
