@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'Ecommerce.core',
     'Ecommerce.accounts',
     'Ecommerce.products',
     'Ecommerce.cart',

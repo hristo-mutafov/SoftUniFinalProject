@@ -1,0 +1,13 @@
+<!-- custom_product_add.html -->
+{% extends "admin/change_form.html" %}
+
+{% block content %}
+<div class="module">
+    <h2>{{ title }}</h2>
+    <form enctype="multipart/form-data" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
+</div>
+{% endblock %}
