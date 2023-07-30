@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 
 from Ecommerce.favorites.models import Favorites
+from Ecommerce.products.forms import ProductSearchForm
 from Ecommerce.products.models import Product
 
 
@@ -34,3 +35,8 @@ class GetProducts(LoginRequiredMixin, views.ListView):
     def get_queryset(self):
         user = self.request.user
         return user.favorites.products.all().values('id', 'name', 'price', 'image')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = ProductSearchForm(self.request.GET)
+        return context

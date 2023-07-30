@@ -10,6 +10,7 @@
 @import url(product_detail.css);
 @import url(cart.css);
 @import url(order.css);
+@import url(loader.css);
 
 
 .disabled {

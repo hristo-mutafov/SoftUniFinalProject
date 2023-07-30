@@ -1,6 +1,7 @@
 import os
 
 from django.contrib import admin
+from django.shortcuts import get_object_or_404
 
 from Ecommerce.core.s3 import s3
 from Ecommerce.products.forms import ProductForm
@@ -13,6 +14,19 @@ from Ecommerce.utils.save_file import upload_photo
 @admin.register(Product)
 class ProductAdmin(AdminPermissionMixin, admin.ModelAdmin):
     add_form_template = 'admin/custom_product_add.html'
+    ordering = ('name',)
+    list_display = ('name', 'price', 'category', 'quantity')
+    list_filter = ('price', 'brand', 'quantity', 'added_on')
+    search_fields = ('name', 'brand', 'made_in', 'category')
+
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'price', 'category', 'quantity')
+        }),
+        ('Additional Information', {
+            'fields': ('image', 'description', 'made_in')
+        }),
+    )
 
     def add_view(self, request, form_url='', extra_context=None):
         if request.method == 'POST':
@@ -22,8 +36,8 @@ class ProductAdmin(AdminPermissionMixin, admin.ModelAdmin):
                 data = form.cleaned_data
 
                 photo_name = data['photo'].name
-                path = os.path.join(STATICFILES_DIRS[0], photo_name) # Get the full path to the file
-                upload_photo(data['photo'], path)  # Get that file in that folder location
+                path = os.path.join(STATICFILES_DIRS[0], photo_name)
+                upload_photo(data['photo'], path)
                 image_url = s3.upload(path, photo_name)
                 os.remove(path)
 
@@ -43,10 +57,18 @@ class ProductAdmin(AdminPermissionMixin, admin.ModelAdmin):
         }
         return super().add_view(request, form_url=form_url, extra_context=context)
 
+    def delete_model(self, request, obj):
+        path = obj.image.split('/')[3]
+        a = s3.delete(path)
+
+        super().delete_model(request, obj)
+
 
 @admin.register(Category)
 class CategoryAdmin(AdminPermissionMixin, admin.ModelAdmin):
-    pass
+    ordering = ('name',)
+    list_filter = ('name',)
+    search_fields = ('name',)
 
 
 

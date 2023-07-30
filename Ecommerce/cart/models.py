@@ -19,6 +19,9 @@ class Cart(models.Model):
         through='CartProducts'
     )
 
+    def __str__(self):
+        return f'{self.user.email}\'s cart'
+
 
 class CartProducts(models.Model):
     count = models.IntegerField(
@@ -35,3 +38,6 @@ class CartProducts(models.Model):
         Cart,
         on_delete=models.CASCADE
     )
+
+    def __str__(self):
+        return f'{self.cart.user.email}\'s cart-products'

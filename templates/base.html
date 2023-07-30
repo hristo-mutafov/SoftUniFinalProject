@@ -35,11 +35,12 @@
                                 <p id="cartItemsCount">{{ cart_products_count }}</p>
                             {% endif %}
                         </li>
+                        {% if request.user.is_superuser or request.user.is_staff %}
+                            <li id="cardListItem" class="list_item">
+                                <a href="{% url 'admin:index' %}"><i class="fas fa-users-cog"></i></a>
+                            </li>
+                        {% endif %}
                         <li id="headerPrice" class="list_item">{{ overall_products_price|floatformat:2 }}</li>
-                        <div class="navbar__toggle" id="mobile-menu">
-                            <span class="bar"></span> <span class="bar"></span>
-                            <span class="bar"></span>
-                        </div>
 
                     {% else %}
                         <li class="list_item">
@@ -48,17 +49,33 @@
                             ></a>
                         </li>
                     {% endif %}
+                    <div class="navbar__toggle" id="mobile-menu">
+                        <span class="bar"></span> <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
                 </ul>
 
             </div>
             <ul role="list" class="wrapper mobile">
-                <li class="list_item">
-                    <a href=""
-                        >Profile</a>
-                </li>
-                <li class="list_item disabled">
-                    <a href="">Favorites</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="list_item">
+                        <a href="{% url 'profile_navigator' %}"
+                            >Profile</a>
+                    </li>
+                    <li class="list_item">
+                        <a href="{% url 'get_favourite_products' %}">Favorites</a>
+                    </li>
+                    {% if request.user.is_superuser or request.user.is_staff %}
+                        <li class="list_item">
+                            <a href="{% url 'admin:index' %}">Admin</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="list_item">
+                        <a href="{% url 'register' %}"
+                            >Sign up</a>
+                    </li>
+                {% endif %}
             </ul>
         </header>
 

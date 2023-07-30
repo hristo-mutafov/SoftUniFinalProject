@@ -90,7 +90,8 @@
                     </div>
                     <p class="error_message"></p>
 
-                    <button type="button" id="finish_order_btn" class="finish_order">Finish Order</button>
+                    <button type="button" id="finish_order_btn" class="finish_order"><span style="display: none" class="loader" ></span>
+                        Finish Order</button>
                     <button form="order_form" id="hidden_finish_order_btn" hidden></button>
                 </div>
             </div>
@@ -99,38 +100,40 @@
 
     </main>
     <script>
-        window.addEventListener('load', mountForm)
-        const fakeBuyButton = document.querySelector('#finish_order_btn')
-        const realButton = document.querySelector('#hidden_finish_order_btn')
-        const errorMessage = document.querySelector('#order_form > section.additional > div:nth-child(2) > div.main > p')
+        window.addEventListener('load', mountForm);
+        const fakeBuyButton = document.querySelector('#finish_order_btn');
+        const realButton = document.querySelector('#hidden_finish_order_btn');
+        const errorMessage = document.querySelector('#order_form > section.additional > div:nth-child(2) > div.main > p');
+        const loader = document.querySelector('.loader');
 
         let stripe;
         let cardElement;
 
         async function mountForm() {
-            const priceWrapper = document.querySelector('#cardInfoWrapper.data')
+            const priceWrapper = document.querySelector('#cardInfoWrapper.data');
 
             stripe = Stripe('{{ publishable_key }}');
             const elements = stripe.elements();
             cardElement = elements.create('card');
             cardElement.mount('#cardInfoWrapper.data');
-            priceWrapper.style.display = 'none'
+            priceWrapper.style.display = 'none';
         }
 
 
         fakeBuyButton.addEventListener('click', async () => {
-            const withStripeButton = document.querySelector("#id_payment_method_1")
+            loader.style.display = 'inline-block';
+            const withStripeButton = document.querySelector("#id_payment_method_1");
             if (withStripeButton.checked) {
-                const clientSecret = await getClientSecret()
+                const clientSecret = await getClientSecret();
                 if (clientSecret) {
-                    const res = await payWithStipe(clientSecret)
+                    const res = await payWithStipe(clientSecret);
                     if (res) {
-                        realButton.click()
+                        realButton.click();
                     }
                 }
 
             } else {
-                realButton.click()
+                realButton.click();
             }
         })
 
@@ -145,6 +148,7 @@
             );
             if (error) {
                 errorMessage.textContent = error.message;
+                loader.style.display = 'none';
             } else {
                 return true;
             }

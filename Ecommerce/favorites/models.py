@@ -15,3 +15,6 @@ class Favorites(models.Model):
     products = models.ManyToManyField(
         Product,
     )
+
+    def __str__(self):
+        return f'{self.user.email}\'s favorite products'

@@ -12,9 +12,6 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 
 from Ecommerce.accounts.forms import LoginForm, RegisterForm
-from Ecommerce.accounts.models import UserProfile
-from Ecommerce.cart.models import Cart
-from Ecommerce.favorites.models import Favorites
 
 UserModel = get_user_model()
 
@@ -39,9 +36,6 @@ class Register(views.CreateView):
     def form_valid(self, form):
         data = super().form_valid(form)
 
-        UserProfile.objects.create(user=self.object)
-        Favorites.objects.create(user=self.object)
-        Cart.objects.create(user=self.object)
         login(self.request, self.object)
         return data
 

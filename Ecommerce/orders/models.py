@@ -73,6 +73,9 @@ class Order(models.Model):
 
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user.email}\'s orders'
+
 
 class OrderProducts(models.Model):
     order = models.ForeignKey(
@@ -90,4 +93,7 @@ class OrderProducts(models.Model):
         Product,
         on_delete=models.CASCADE
     )
+
+    def __str__(self):
+        return f'{self.order.user.email}\'s order-products'
 

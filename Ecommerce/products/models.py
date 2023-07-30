@@ -10,6 +10,9 @@ class Category(models.Model):
         blank=False
     )
 
+    def __str__(self):
+        return f'{self.name} Category'
+
 
 class Product(models.Model):
     NAME_MAX_LEN = 50
@@ -66,3 +69,6 @@ class Product(models.Model):
     added_on = models.DateField(
         auto_now_add=True,
     )
+
+    def __str__(self):
+        return f'{self.name} Product'
