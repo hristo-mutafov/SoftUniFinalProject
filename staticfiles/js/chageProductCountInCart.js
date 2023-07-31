@@ -43,8 +43,11 @@ function increaseCount(e, id) {
         .then(res => {
             const price = res.price;
 
-            fields.currentBigPrice.textContent = Number(fields.currentBigPrice.textContent) + Number(price.split('.')[0]);
-            fields.currentSmallPrice.textContent = Number(fields.currentSmallPrice.textContent) + Number(price.split('.')[1]);
+            const bigPriceSum = Number(fields.currentBigPrice.textContent) + Number(price.split('.')[0]);
+            const smallPriceSum = Number(fields.currentSmallPrice.textContent) + Number(price.split('.')[1]);
+
+            fields.currentBigPrice.textContent = bigPriceSum;
+            fields.currentSmallPrice.textContent = smallPriceSum.toString().padStart(2, '0');
             fields.globalPrice.textContent = (Number(fields.globalPrice.textContent) + Number(price)).toFixed(2)
         })
         .catch((err) => {
@@ -63,8 +66,11 @@ function decreaseCount(e, id) {
         .then(res => {
             const price = res.price;
 
-            fields.currentBigPrice.textContent = Number(fields.currentBigPrice.textContent) - Number(price.split('.')[0]);
-            fields.currentSmallPrice.textContent = Number(fields.currentSmallPrice.textContent) - Number(price.split('.')[1]);
+            const bigPriceSum = Number(fields.currentBigPrice.textContent) - Number(price.split('.')[0]);
+            const smallPriceSum = Number(fields.currentSmallPrice.textContent) - Number(price.split('.')[1]);
+
+            fields.currentBigPrice.textContent = bigPriceSum;
+            fields.currentSmallPrice.textContent = smallPriceSum.toString().padStart(2, '0');
             fields.globalPrice.textContent = (Number(fields.globalPrice.textContent) - Number(price)).toFixed(2)
         })
         .catch((err) => {
