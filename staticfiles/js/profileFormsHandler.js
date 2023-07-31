@@ -1,12 +1,13 @@
 
 
 const mapper = {
-    changeName: BASE_URL + 'profile/update_name/',
-    changeEmail: BASE_URL + 'profile/update_email/',
-    changePassword: BASE_URL + 'profile/change_password/',
-    changeCity: BASE_URL + 'profile/update_city/',
-    changeAddress: BASE_URL + 'profile/update_address/',
-    changePhoneNumber: BASE_URL + 'profile/update_phone_number/',
+    changeName: 'update_name/',
+    changeEmail: 'update_email/',
+    changePassword: 'change_password/',
+
+    changeCity: 'update_city/',
+    changeAddress: 'update_address/',
+    changePhoneNumber: 'update_phone_number/',
 }
 
 
@@ -21,7 +22,7 @@ async function changeHandler(event, form) {
     const fRes = await fetch(mapper[form], {
         method: 'POST',
         headers: {
-            'content-type': 'application/json',
+            'content-type': 'text/html',
             'X-CSRFToken': CSRF_TOKEN
         },
         body: JSON.stringify(formData)

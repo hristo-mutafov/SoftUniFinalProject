@@ -13,7 +13,6 @@
     <main class="index_page" id="main">
         <div class="form_wrapper">
             <form method="get" clss="index_page_form">
-{#                <input class="wide_input">#}
                 {{ search_form.search_query }}
                 <button class="submit_button"><i class="fas fa-search"></i></button>
             </form>
@@ -30,7 +29,7 @@
                                 <h3 class="heading">{{ product.name }}</h3>
                                 <p class="price">{{ product.price }}</p>
                             </div>
-                            {% if user.is_authenticated and product|is_in_favorites:request.user %}
+                            {% if user.is_authenticated and product|is_in_favorites:user %}
                                 <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="fas fa-heart"></i>
                             {% else %}
                                 <i onclick="addToFavorites(event, {{ product.id }})" id="icon" class="far fa-heart"></i>

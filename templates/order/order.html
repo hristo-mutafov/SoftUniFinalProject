@@ -155,7 +155,7 @@
         }
 
         async function getClientSecret() {
-            const URL = BASE_URL + '/orders/retrieve_client_secret/';
+            const URL = 'retrieve_client_secret/';
             const fRes = await fetch(URL, {
                 method: 'POST',
                 headers: {

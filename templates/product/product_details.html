@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load product_tags %}
 
 
 {% block main %}
+    <script defer src="{% static 'js/addToFavoritesHandler.js' %}"></script>
     <main class="product_page" id="main">
         <div class="wrapper">
             <img src="{{ product.image }}" id="rpoductImage" alt="" class="image">
@@ -77,10 +80,17 @@
 
                 </div>
                 <div class="add_to">
-                    <div class="add_to_favorites">
-                        <i class="far fa-heart"></i>
-                        <p>Add to favorites</p>
-                    </div>
+                    {% if user.is_authenticated and product|is_in_favorites:user %}
+                        <div onclick="addToFavorites(event, {{ product.id }})" class="add_to_favorites">
+                            <i id="icon" class="fas fa-heart"></i>
+                            <p>Add to favorites</p>
+                        </div>
+                    {% else %}
+                        <div onclick="addToFavorites(event, {{ product.id }})" class="add_to_favorites">
+                            <i id="icon" class="far fa-heart"></i>
+                            <p>Add to favorites</p>
+                        </div>
+                    {% endif %}
                 </div>
             </section>
         </div>

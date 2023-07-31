@@ -9,16 +9,6 @@
                 <h1>Register</h1>
                 <form method="post" action="{% url 'register' %}" class="form">
 
-{#                    <p id="error_messages"></p>#}
-{#                    <label for="email_field">Email</label>#}
-{#                    <input id="email_field" type="text" />#}
-{#                    <label for="password_field">Password</label>#}
-{#                    <input id="password_field" type="password" />#}
-{#                    <label for="repeat_password_field"#}
-{#                        >Repeat Password</label#}
-{#                    >#}
-{#                    <input id="repeat_password_field" type="password" />#}
-
                     {% if form.errors %}
                         {% for field_errors in form.errors.values %}
                             {% for error in field_errors %}

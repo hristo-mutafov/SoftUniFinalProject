@@ -2,8 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.hashers import make_password
 
 from Ecommerce.accounts.models import AppUser, UserProfile
-from Ecommerce.cart.models import Cart
-from Ecommerce.favorites.models import Favorites
 
 
 @admin.register(AppUser)
@@ -16,7 +14,7 @@ class UserAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('email',)
+            'fields': ('email', 'password')
         }),
         ('Additional Information', {
             'fields': ('is_active', 'is_staff', 'date_joined')
@@ -33,10 +31,6 @@ class UserAdmin(admin.ModelAdmin):
 
             if form.is_valid():
                 app_user = form.save()
-
-                UserProfile.objects.create(user=app_user)
-                Favorites.objects.create(user=app_user)
-                Cart.objects.create(user=app_user)
 
                 return self.response_add(request, app_user)
 
