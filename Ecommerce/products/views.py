@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 import django.views.generic as views
+from django.db.models import Q
 
 from Ecommerce.products.forms import ProductSearchForm
 from Ecommerce.products.models import Product
@@ -18,7 +19,9 @@ class GetProducts(views.ListView):
         if form.is_valid():
             search_query = form.cleaned_data.get('search_query')
             if search_query:
-                queryset = queryset.filter(name__icontains=search_query)
+                queryset = queryset.filter(Q(name__icontains=search_query) |
+                                           Q(brand=search_query) |
+                                           Q(category__name__icontains=search_query))
 
         return queryset.values('id', 'name', 'price', 'image')
 

@@ -16,12 +16,12 @@ class Category(models.Model):
 
 class Product(models.Model):
     NAME_MAX_LEN = 50
-    IMAGE_FIELD_MAX_LEN = 100
+    IMAGE_FIELD_MAX_LEN = 250
     MADE_IN_FIELD_MAX_LEN = 50
     BRAND_MAX_LEN = 30
 
     image = models.URLField(
-        max_length=100,
+        max_length=IMAGE_FIELD_MAX_LEN,
         null=False,
         blank=False
     )
