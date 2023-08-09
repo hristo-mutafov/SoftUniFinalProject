@@ -123,6 +123,46 @@
 }
 
 
+.pagination {
+    margin: 40px;
+    text-align: center;
+}
+
+.step-links {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.step-links a {
+    padding: 5px 10px;
+    border: 1px solid #1d1d1f;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 24px;
+}
+
+.current {
+    display: inline-block;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #1d1d1f;
+}
+
+.current-page {
+    display: inline-block;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #1d1d1f;
+}
+
+.step-links a:hover {
+    background-color: #f4f4f4;
+}
+
+
+
 @media screen and (max-width: 730px) {
     .index_page .product {
         margin: 0 auto;
@@ -143,6 +183,14 @@
     .index_page .emptyPageMassage {
         font-size: 18px;
     }
+
+    .step-links {
+    font-size: 16px;
+}
+
+.step-links a {
+    font-size: 18px;
+}
 }
 
 @media screen and (max-width: 405px) {

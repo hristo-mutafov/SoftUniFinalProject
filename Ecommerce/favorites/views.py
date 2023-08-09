@@ -31,6 +31,7 @@ class GetProducts(LoginRequiredMixin, views.ListView):
     model = Product
     template_name = 'product/product.html'
     context_object_name = 'products'
+    paginate_by = 5
 
     def get_queryset(self):
         user = self.request.user
